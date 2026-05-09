@@ -16,7 +16,7 @@ The example has one state, two actions, zero rewards, and one scalar feature.
 
 **Definition (State process and input process).** The *state process* $\{X_n\}_{n \geq 0}$ is an $\mathcal{S}$-valued stochastic process satisfying $\mathbb{P}(X_{n+1} = x' \mid X_0, U_0, \ldots, X_n, U_n) = P(x' \mid X_n, U_n)$. The *input process* $\{U_n\}_{n \geq 0}$ is a $\mathcal{U}$-valued process representing the sequence of actions taken by the agent. Under a stationary behavior policy $\mu$, the input process satisfies $U_n \sim \mu(\cdot \mid X_n)$ for each $n$.
 
-The action-value function under a policy $\mu$ is $Q^\mu(x,u) = \mathbb{E}\bigl[\sum_{k=0}^{\infty} \gamma^k\, r(X_{n+k}, U_{n+k}) \mid X_n = x,\, U_n = u\bigr]$, and the optimal action-value function is $Q^*(x,u) = \max_\mu Q^\mu(x,u)$. Q-learning and its variants seek to estimate $Q^*$ from observed transitions.
+The action-value function under a policy $\mu$ is $Q^\mu(x,u) = \mathbb{E}\bigl[\sum_{k=0}^{\infty} \gamma^k\, r(X_{n+k}, U_{n+k}) \mid X_n = x,\, U_n = u\bigr]$, and the optimal action-value function is $Q^\ast(x,u) = \max_\mu Q^\mu(x,u)$. Q-learning and its variants seek to estimate $Q^\ast$ from observed transitions.
 
 In the remainder of this paper, both $\mathcal{S}$ and $\mathcal{U}$ are assumed to be finite.
 
@@ -24,13 +24,13 @@ In the remainder of this paper, both $\mathcal{S}$ and $\mathcal{U}$ are assumed
 
 Consider the discounted MDP with one state $s$, two actions $a_1, a_2$, deterministic self-transition, zero rewards, and discount factor $\gamma = 0.9$. Thus $P(s \mid s,a) = 1$ and $r(s,a) = 0$ for both actions $a \in \{a_1, a_2\}$. Since all rewards are zero,
 
-$$Q^*(s,a_1) = Q^*(s,a_2) = 0.$$
+$$Q^\ast(s,a_1) = Q^\ast(s,a_2) = 0.$$
 
 Use one-dimensional linear features $\phi(s,a_1) = 1$ and $\phi(s,a_2) = 2$. The two Double-Q estimators are parameterized by scalars $\theta_A, \theta_B$:
 
 $$Q_A(s,a) = \theta_A \phi(s,a), \qquad Q_B(s,a) = \theta_B \phi(s,a).$$
 
-The optimal function $Q^* \equiv 0$ is exactly representable by the parameter value $\theta_A = \theta_B = 0$.
+The optimal function $Q^\ast \equiv 0$ is exactly representable by the parameter value $\theta_A = \theta_B = 0$.
 
 Let the stationary behavior policy be $\mu(a_1 \mid s) = 0.9$ and $\mu(a_2 \mid s) = 0.1$. At time $n$, sample an action from $\mu$, and write $X_{n+1} = \phi(s, A_{n+1}) \in \{1, 2\}$. Hence
 
@@ -72,7 +72,7 @@ Therefore, since $\theta_{A,0} > 0$ and $\theta_{B,0} > 0$, we have $\theta_{A,n
 
 ## 6. Dynamics of the parameter sum
 
-Define $\Sigma_n = \theta_{A,n} + \theta_{B,n}$. By positivity invariance, $\Sigma_n > 0$ for all $n$. We will prove that $\Sigma_n \to \infty$ almost surely. This implies that the Double-Q parameter vector is unbounded and therefore cannot converge to $(0,0)$, which represents $Q^*$.
+Define $\Sigma_n = \theta_{A,n} + \theta_{B,n}$. By positivity invariance, $\Sigma_n > 0$ for all $n$. We will prove that $\Sigma_n \to \infty$ almost surely. This implies that the Double-Q parameter vector is unbounded and therefore cannot converge to $(0,0)$, which represents $Q^\ast$.
 
 Let $r_n = \theta_{A,n} / \Sigma_n \in (0,1)$. If estimator $A$ is updated at time $n$, then
 
