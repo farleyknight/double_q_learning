@@ -19,7 +19,8 @@ PHI = np.array([1.0, 2.0])  # phi(a1), phi(a2)
 MU_A1 = 0.9                  # behavior policy probability of a1
 A = 1.0 / 16.0               # stepsize constant
 N_STEPS = 100_000
-INITS = [0.01, 0.1, 1.0, 10.0]  # theta_A = theta_B at t=0
+INITS = [(0.01, 0.01), (0.1, 0.1), (1.0, 1.0), (10.0, 10.0),
+         (0.1, 10.0), (10.0, 0.1)]  # (theta_A, theta_B) at t=0
 N_SEEDS = 20
 
 
@@ -55,15 +56,15 @@ theory[1:] = 0.34 * A * np.cumsum(1.0 / np.arange(1, N_STEPS + 1))
 
 fig, axes = plt.subplots(len(INITS), 1, figsize=(10, 3 * len(INITS)), sharex=True)
 
-for ax, init in zip(axes, INITS):
+for ax, (init_a, init_b) in zip(axes, INITS):
     for seed in range(N_SEEDS):
-        log_s = run_double_q(init, init, N_STEPS, seed)
+        log_s = run_double_q(init_a, init_b, N_STEPS, seed)
         ax.plot(steps, log_s, alpha=0.3, linewidth=0.5)
     # Overlay theoretical drift (shifted to match initial value)
-    log_s0 = np.log(2 * init)
+    log_s0 = np.log(init_a + init_b)
     ax.plot(steps, log_s0 + theory, "k--", linewidth=1.5, label="theoretical drift")
     ax.set_ylabel("log Sₙ")
-    ax.set_title(f"θ_A(0) = θ_B(0) = {init}")
+    ax.set_title(f"θ_A(0) = {init_a}, θ_B(0) = {init_b}")
     ax.legend(loc="upper left", fontsize=8)
 
 axes[-1].set_xlabel("step n")
@@ -72,12 +73,12 @@ fig.tight_layout()
 fig.savefig("divergence.png", dpi=150, bbox_inches="tight")
 print("Saved divergence.png")
 
-# Print final S_n summary for one initialization
-init = 1.0
-finals = []
-for seed in range(N_SEEDS):
-    log_s = run_double_q(init, init, N_STEPS, seed)
-    finals.append(np.exp(log_s[-1]))
-finals = np.array(finals)
-print(f"\nθ_A(0)=θ_B(0)=1.0, {N_SEEDS} seeds, {N_STEPS} steps:")
-print(f"  S_N  min={finals.min():.2f}  median={np.median(finals):.2f}  max={finals.max():.2f}")
+# Print final S_n summary for each initialization
+for init_a, init_b in INITS:
+    finals = []
+    for seed in range(N_SEEDS):
+        log_s = run_double_q(init_a, init_b, N_STEPS, seed)
+        finals.append(np.exp(log_s[-1]))
+    finals = np.array(finals)
+    print(f"\nθ_A(0)={init_a}, θ_B(0)={init_b}, {N_SEEDS} seeds, {N_STEPS} steps:")
+    print(f"  S_N  min={finals.min():.2f}  median={np.median(finals):.2f}  max={finals.max():.2f}")
