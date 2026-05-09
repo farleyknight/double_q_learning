@@ -32,16 +32,17 @@ See `literature_review.md` for the careful placement, including the framing cave
 - **`proof.tex`** / **`proof.pdf`** / **`proof.md`** — the proof. Constructs the MDP, establishes positivity invariance of the parameters, and uses a martingale decomposition on log Sₙ (where Sₙ = θ_{A,n} + θ_{B,n}) to turn mean-field instability into almost-sure divergence.
 - **`literature_review.md`** — where the result sits relative to existing work: what's clearly established, what's genuinely new, and where the framing could be sharpened.
 - **`LeanProof/`** — Lean 4 / Mathlib formalization of the martingale convergence step (Section 7 of the proof). See `LeanProof/README.md` for the module map.
+- **`simulate.py`** / **`divergence.png`** — numerical simulation confirming divergence from 4 initializations × 20 seeds × 100k steps.
 
 ## What's verified, what isn't
 
-- The almost-sure divergence claim has **not yet been verified by simulation**. A short Python script that runs the iteration and plots Sₙ from several positive initializations would resolve this directly. Open.
+- The almost-sure divergence claim has been **verified by simulation** (`simulate.py`). From four initializations (θ₀ ∈ {0.01, 0.1, 1.0, 10.0}) and 20 seeds each, all trajectories diverge, with log Sₙ tracking the theoretical drift 0.34a·Hₙ. See `divergence.png`.
 - The proof has been read end-to-end but **not deeply verified by a human**; the spot-checks done so far (mean-drift averaging in Section 6, positivity bound in Section 4) are the obvious ones, not exhaustive.
 - The Lean formalization **compiles**, but a human-readable correspondence between the Lean lemmas and Section 7 of the prose proof has not yet been written.
 
 ## Open items
 
-- Numerical simulation confirming Sₙ → ∞ for representative initializations and stepsize choices.
+- ~~Numerical simulation confirming Sₙ → ∞ for representative initializations and stepsize choices.~~ Done (`simulate.py`).
 - A documented mapping from Lean lemma names to `proof.md` section numbers.
 - Removing or weakening the strictly-positive initialization assumption.
 - Extending the analysis to non-symmetric, target-network, or asynchronous variants of Double Q-learning.
