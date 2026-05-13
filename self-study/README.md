@@ -24,7 +24,7 @@ This is what passing the bar looks like. After completing this study plan, I sho
 >
 > (ii) **$\langle S \rangle_\infty < \infty$ a.s.** The proof shows the pathwise bound $|M_{n+1}| \leq 16\alpha_n$, hence $\mathbb{E}[M_{n+1}^2 \mid \mathcal{F}_n] \leq 256\alpha_n^2$. Since $\alpha_n = a/(n+1)$ satisfies $\sum_n \alpha_n^2 < \infty$ (one of the standard Robbins–Monro conditions), $\langle S \rangle_\infty \leq 256 \sum_n \alpha_n^2 < \infty$ deterministically — much stronger than the a.s. version the theorem requires.
 >
-> Hence $S_N$ converges a.s. to a finite limit. Combined with the divergent-drift bound $\sum_n \mathbb{E}[\Delta L_{n+1} \mid \mathcal{F}_n] \to +\infty$ established in Section 7, the Doob decomposition $L_N = L_0 + \sum_n \mathbb{E}[\Delta L_{n+1} \mid \mathcal{F}_n] + S_N$ yields $L_N \to +\infty$ a.s., and therefore $\Sigma_N \to \infty$ a.s.
+> Hence $S_N$ converges a.s. to a finite limit. Combined with the divergent-drift bound $\sum_n \mathbb{E}[\Delta L_{n+1} \mid \mathcal{F}_n] \to +\infty$ established in Section 7, the Doob decomposition $L_N = L_0 + \sum_n \mathbb{E}[\Delta L_{n+1} \mid \mathcal{F}_n] + S_N$ yields $L_N \to +\infty$ a.s., and therefore $W_N \to \infty$ a.s.
 
 If I can write that without notes — name the right theorem, state it correctly, and point at the lines of the proof that verify each hypothesis — the proof's central technical step is no longer something I'm taking on faith.
 
@@ -105,15 +105,15 @@ If I can't do this without notes, I haven't actually understood it, and one or m
 
 Pick the ones that feel hard. Not all of them.
 
-1. **Doob decomposition of $L_N$.** Write out the predictable process $A_N$ and the martingale $S_N$ for the proof's $L_N = \log \Sigma_N$. Verify directly from the definition that $S_N$ is a martingale (i.e., $\mathbb{E}[S_{n+1} - S_n \mid \mathcal{F}_n] = 0$). This is the cleanest sanity check that you understand the decomposition.
+1. **Doob decomposition of $L_N$.** Write out the predictable process $A_N$ and the martingale $S_N$ for the proof's $L_N = \log W_N$. Verify directly from the definition that $S_N$ is a martingale (i.e., $\mathbb{E}[S_{n+1} - S_n \mid \mathcal{F}_n] = 0$). This is the cleanest sanity check that you understand the decomposition.
 
 2. **Where does the 256 come from?** The proof claims $\mathbb{E}[M_{n+1}^2 \mid \mathcal{F}_n] \leq 256 \alpha_n^2$. Trace the bound: $|M_{n+1}| \leq |\Delta L_{n+1}| + |\mathbb{E}[\Delta L_{n+1} \mid \mathcal{F}_n]| \leq 8\alpha_n + 8\alpha_n = 16\alpha_n$, so $M_{n+1}^2 \leq 256\alpha_n^2$. Is this tight? What would a more careful bound give? (Hint: it's loose by a noticeable factor, because $|Y_{n+1}|$ is rarely close to its worst-case value of 4.)
 
 3. **The $\log(1 + t) \geq t - t^2$ inequality.** Used in Section 7. Prove it for $|t| \leq 1/4$. Where does the requirement $\alpha_n \leq 1/16$ come from? (Hint: $|\alpha_n Y_{n+1}| \leq 4\alpha_n \leq 1/4$ requires $\alpha_n \leq 1/16$. So the small-stepsize requirement is bookkeeping — it exists to make the second-order Taylor inequality valid pathwise.)
 
-4. **The "uniform in $r_n$" cancellation.** Section 7 shows $\mathbb{E}[Y_{n+1} \mid \mathcal{F}_n] = 0.34$ regardless of the current ratio $r_n = \theta_{A,n}/\Sigma_n$. Verify this calculation by hand and identify the *structural* reason the $r_n$ dependence cancels: the symmetric Bernoulli choice between A and B updates exchanges the roles of $r_n$ and $1 - r_n$ in expectation, so the linear-in-$r_n$ term drops out. *This is the slick part of the whole proof.* If you don't see why it works, you don't yet see the proof.
+4. **The "uniform in $r_n$" cancellation.** Section 7 shows $\mathbb{E}[Y_{n+1} \mid \mathcal{F}_n] = 0.34$ regardless of the current ratio $r_n = \theta_{A,n}/W_n$. Verify this calculation by hand and identify the *structural* reason the $r_n$ dependence cancels: the symmetric Bernoulli choice between A and B updates exchanges the roles of $r_n$ and $1 - r_n$ in expectation, so the linear-in-$r_n$ term drops out. *This is the slick part of the whole proof.* If you don't see why it works, you don't yet see the proof.
 
-5. **Empirical sanity check (optional).** The simulation in `simulate.py` already tracks $\log \Sigma_n$. Modify it to also output the running partial sum $S_N = \sum_{n<N} M_{n+1}$ alongside the running drift $A_N = \sum_{n<N} \mathbb{E}[\Delta L_{n+1} \mid \mathcal{F}_n]$. The first should look bounded (converging) across seeds; the second should grow like $0.34 \cdot \sum_{n<N} \alpha_n$. Watching this directly is a different kind of conviction than reading the theorem statement — it's the empirical face of the Doob decomposition.
+5. **Empirical sanity check (optional).** The simulation in `simulate.py` already tracks $\log W_n$. Modify it to also output the running partial sum $S_N = \sum_{n<N} M_{n+1}$ alongside the running drift $A_N = \sum_{n<N} \mathbb{E}[\Delta L_{n+1} \mid \mathcal{F}_n]$. The first should look bounded (converging) across seeds; the second should grow like $0.34 \cdot \sum_{n<N} \alpha_n$. Watching this directly is a different kind of conviction than reading the theorem statement — it's the empirical face of the Doob decomposition.
 
 ## After this
 

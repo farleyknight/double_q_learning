@@ -72,21 +72,21 @@ Therefore, since $\theta_{A,0} > 0$ and $\theta_{B,0} > 0$, we have $\theta_{A,n
 
 ## 6. Dynamics of the parameter sum
 
-Define $\Sigma_n = \theta_{A,n} + \theta_{B,n}$. By positivity invariance, $\Sigma_n > 0$ for all $n$. We will prove that $\Sigma_n \to \infty$ almost surely. This implies that the Double-Q parameter vector is unbounded and therefore cannot converge to $(0,0)$, which represents $Q^\ast$.
+Define $W_n = \theta_{A,n} + \theta_{B,n}$. By positivity invariance, $W_n > 0$ for all $n$. We will prove that $W_n \to \infty$ almost surely. This implies that the Double-Q parameter vector is unbounded and therefore cannot converge to $(0,0)$, which represents $Q^\ast$.
 
-Let $r_n = \theta_{A,n} / \Sigma_n \in (0,1)$. If estimator $A$ is updated at time $n$, then
+Let $r_n = \theta_{A,n} / W_n \in (0,1)$. If estimator $A$ is updated at time $n$, then
 
-$$\Sigma_{n+1} = \Sigma_n + \alpha_n X_{n+1}(1.8\,\theta_{B,n} - X_{n+1}\,\theta_{A,n}).$$
+$$W_{n+1} = W_n + \alpha_n X_{n+1}(1.8\,\theta_{B,n} - X_{n+1}\,\theta_{A,n}).$$
 
-Dividing by $\Sigma_n$, this becomes $\Sigma_{n+1} = \Sigma_n(1 + \alpha_n Y_{n+1})$, where, in the case of an $A$-update,
+Dividing by $W_n$, this becomes $W_{n+1} = W_n(1 + \alpha_n Y_{n+1})$, where, in the case of an $A$-update,
 
 $$Y_{n+1} = X_{n+1}\bigl(1.8(1 - r_n) - X_{n+1}\,r_n\bigr).$$
 
-If estimator $B$ is updated, then similarly $\Sigma_{n+1} = \Sigma_n(1 + \alpha_n Y_{n+1})$, where
+If estimator $B$ is updated, then similarly $W_{n+1} = W_n(1 + \alpha_n Y_{n+1})$, where
 
 $$Y_{n+1} = X_{n+1}\bigl(1.8\,r_n - X_{n+1}(1 - r_n)\bigr).$$
 
-For both possible updates, because $r_n \in (0,1)$ and $X_{n+1} \in \{1, 2\}$, we have $-4 \leq Y_{n+1} \leq 3.6$. Therefore $|\alpha_n Y_{n+1}| \leq 1/4$ and $1 + \alpha_n Y_{n+1} \geq 3/4 > 0$. Thus the logarithm of $\Sigma_n$ is well defined for every $n$.
+For both possible updates, because $r_n \in (0,1)$ and $X_{n+1} \in \{1, 2\}$, we have $-4 \leq Y_{n+1} \leq 3.6$. Therefore $|\alpha_n Y_{n+1}| \leq 1/4$ and $1 + \alpha_n Y_{n+1} \geq 3/4 > 0$. Thus the logarithm of $W_n$ is well defined for every $n$.
 
 ## 7. Positive drift of the logarithm
 
@@ -111,7 +111,7 @@ $$\begin{aligned}
 
 Thus $Y_{n+1}$ has a strictly positive conditional mean, uniformly over the current parameters.
 
-Define $L_n = \log \Sigma_n$. Since $\Sigma_{n+1} = \Sigma_n(1 + \alpha_n Y_{n+1})$, we have $L_{n+1} - L_n = \log(1 + \alpha_n Y_{n+1})$. For $|t| \leq 1/4$, the elementary inequality $\log(1 + t) \geq t - t^2$ holds. Applying this with $t = \alpha_n Y_{n+1}$, and using $|Y_{n+1}| \leq 4$, gives
+Define $L_n = \log W_n$. Since $W_{n+1} = W_n(1 + \alpha_n Y_{n+1})$, we have $L_{n+1} - L_n = \log(1 + \alpha_n Y_{n+1})$. For $|t| \leq 1/4$, the elementary inequality $\log(1 + t) \geq t - t^2$ holds. Applying this with $t = \alpha_n Y_{n+1}$, and using $|Y_{n+1}| \leq 4$, gives
 
 $$\mathbb{E}[L_{n+1} - L_n \mid \mathcal{F}_n] \geq \alpha_n\,\mathbb{E}[Y_{n+1} \mid \mathcal{F}_n] - \alpha_n^2\,\mathbb{E}[Y_{n+1}^2 \mid \mathcal{F}_n] \geq 0.34\,\alpha_n - 16\,\alpha_n^2.$$
 
@@ -143,9 +143,9 @@ and the lower bound from Section 7,
 
 $$\sum_{n=0}^{N-1} \mathbb{E}[\Delta L_{n+1} \mid \mathcal{F}_n] \geq \sum_{n=0}^{N-1} (0.34\,\alpha_n - 16\,\alpha_n^2) \to +\infty.$$
 
-The martingale term converges almost surely to a finite limit. Therefore $L_N \to +\infty$ almost surely. Since $L_N = \log \Sigma_N$, this implies $\Sigma_N \to \infty$ almost surely. Since both parameters remain positive,
+The martingale term converges almost surely to a finite limit. Therefore $L_N \to +\infty$ almost surely. Since $L_N = \log W_N$, this implies $W_N \to \infty$ almost surely. Since both parameters remain positive,
 
-$$\max\{\theta_{A,N},\, \theta_{B,N}\} \geq \frac{\Sigma_N}{2} \to \infty.$$
+$$\max\{\theta_{A,N},\, \theta_{B,N}\} \geq \frac{W_N}{2} \to \infty.$$
 
 Thus the parameter vector is unbounded almost surely. In particular, the Double-Q iterates cannot converge to the representable optimum $(\theta_A, \theta_B) = (0,0)$. This proves the theorem. ∎
 
